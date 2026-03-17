@@ -327,5 +327,42 @@ http://127.0.0.1:8080/
 - Server config presets
 - Multi-server support
 
+
+## Example Docker Compose Setup
+
+ - This compose entry assumes the CS2Ops Repo has been cloned into the same directory your CS2 Server Docker Compose
+
+```
+your-dir/
+├── docker-compose.yml
+└── CS2Ops/
+    ├── Dockerfile
+    ├── package.json
+    ├── package-lock.json
+    └── ...
+```
+
+```yaml
+  cs2ops:
+    build: CS2Ops
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock #Optional: only for RCON Log Functionality
+    environment:
+      DOCKER_CONTAINER: cs2-dedicated  #Optional: only for RCON Log Functionality
+      PANEL_PORT: 8080
+      PANEL_USER: admin
+      PANEL_PASS: changeme
+      CS2_HOST: 192.168.1.100
+      CS2_PORT: 27015
+      CS2_RCON_PASSWORD: changeme
+      STANDARD_MAPS: de_dust2,de_mirage,de_inferno,de_nuke,de_ancient,de_anubis,de_vertigo
+      LOG_LINES: 200
+      AUTO_TTL_MS: 600000
+      AUTO_MAX_ITEMS: 80000
+    restart: unless-stopped
+```
+
 ## License
 MIT License — use it freely, modify it, improve it.
